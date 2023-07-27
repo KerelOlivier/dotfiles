@@ -1,0 +1,104 @@
+; System stats
+(defpoll cpu :interval "2s" "mpstat | awk '/all/ {print (100-int($13))}'")
+(defpoll cpu_temp :interval "2s" "sensors | awk '/Tctl/ {gsub(/\+/,\"\",$0); print $2}' | sed 's/..$//'")
+(defpoll mem :interval "2s" "free -m | awk '/Mem:/ {print int($3/$2*100)}'")
+(defpoll time :interval "2s" "date +%H:%M")
+(defpoll spotify :interval "2s" `bash ./scripts/get-spotify-song.sh`)
+
+(deflisten ws :initial "         " `bash ./scripts/get-ws-string.sh`)
+(deflisten volume :initial "0%" `bash ./scripts/get-audio.sh`)
+
+(defwindow topbar
+    :monitor 0
+    :geometry (geometry :x "0%"
+                        :y "0px"
+                        :width "100%"
+                        :height "30px"
+                        :anchor "top center")
+    :stacking "fg"
+    :reserve (struts :distance "40px" :side "top")
+    :windowtype "dock"
+    :wm-ignore false
+    (widgets)
+)
+
+(defwidget systemstats []
+    (box :class "system_stats" :space-evenly false
+        (box :class "spacer ${cpu > 80 ? 'error': ''}" :space-evenly false
+            (label :text " ${cpu}%")
+        )
+        (box :class "spacer ${cpu_temp > 80 ? 'error': ''}" :space-evenly false
+            (label :text "${cpu_temp}℃")
+        )
+        (box :class "spacer ${mem > 80 ? 'error': ''}" :space-evenly false
+        (label :text " ${mem}%")
+        )
+    )
+)
+
+(defwidget spotifywidget []
+    (box :class "spacer" :space-evenly false
+        (label :text spotify)
+    )
+)
+
+(defwidget workspacewidget []
+    (box :class "spacer" :space-evenly false
+        (label :text ws)
+    )
+)
+
+(defwidget timewidget []
+    (box :class "spacer" :space-evenly false
+        (label :text " ${time}")
+    )
+)
+
+(defwidget soundwidget []
+    (box :class "spacer" :space-evenly false
+        (label :text "${volume == 0 ? '󰝟' : '󰕾'} ${volume}%")
+    )
+)
+
+(defwidget widgets []
+    (box
+        (left)
+        (center)
+        (right)
+    )
+)
+
+(defwidget left []
+    (box :class "left"
+        :orientation "h"
+        :space-evenly false
+        :halign "start"
+        (workspacewidget)
+    )
+        
+)
+
+(defwidget center []
+    (box :class "left"
+        :orientation "h"
+        :space-evenly false
+        :halign "center"
+        (spotifywidget)
+    )
+        
+)
+
+(defwidget right []
+        (box :class "right"
+            :orientation "h"
+            :space-evenly false
+            :halign "end"
+            (soundwidget)
+            (systemstats)
+            (timewidget)
+        )
+)
+
+; (defwidget middle []
+; )
+

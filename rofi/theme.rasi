@@ -1,0 +1,113 @@
+configuration {
+  modi: "drun,window";
+  sidebar-mode: true;
+  lines: 10;
+  show-icons: true;
+  icon-theme: "papirus";
+  fullscreen: false;
+  show-match: false;
+  separator-style: "solid";
+  hide-scrollbar: true;
+}
+
+//----------------------
+// Theme Settings 
+//----------------------
+
+//----------------------
+// Colors
+//----------------------
+
+* {
+    background: #00040D;
+    foreground: #365959;
+    border-color: #011826;
+    element-select: #365959;
+    font: "Fira Code 12";
+}
+window{
+  background-color: @background;
+  max-width: 200;
+}
+mainbox{
+  background-color: @background;
+}
+inputbar{
+  background-color: @background;
+  fixed-height: 200px;
+  padding: 0;
+  border: 0px 0px 1px ;
+  border-color: @border-color;
+}
+prompt{
+  enabled: false;
+}
+
+entry{
+  background-color: @background;
+  padding: 10;
+  text-color: @foreground;
+}
+
+listview{
+  background-color: @background;
+  text-color: @foreground;
+}
+element{
+  background-color: @background;
+  text-color: @foreground;
+  padding : 5 10;
+}
+element-text{
+  background-color: @background;
+  text-color: @foreground;
+}
+element-icon{
+  background-color: @background;
+  text-color: @foreground;
+}
+
+element.selected{
+  background-color: @element-select;
+}
+element-icon.selected{
+  background-color: @element-select;
+}
+element-text.selected{
+  background-color: @element-select;
+  text-color: @background;
+}
+
+
+case-indicator{
+  background-color: @background;
+  text-color: @foreground;
+}
+
+
+// Error messages
+err-message{
+  background-color: @background;
+  text-color: @foreground;
+  padding: 10;
+}
+textbox{
+  background-color: @background;
+  text-color: @foreground;
+  padding: 10;
+}
+mode-switcher{
+  background-color: @background;
+  text-color: @foreground;
+  padding: 0;
+  border: 1px 0px 0px ;
+}
+button{
+  background-color: @background;
+  text-color: @foreground;
+  padding: 5;
+}
+button.selected{
+  background-color: @element-select;
+  text-color: @background;
+}
